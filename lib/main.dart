@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:firebase_core/firebase_core.dart';
+// Firebase removed: using local file storage for auth/data.
 import 'package:just_audio_background/just_audio_background.dart';
 import 'package:provider/provider.dart';
 
@@ -23,14 +23,7 @@ Future<void> main() async {
     androidShowNotificationBadge: true,
   );
 
-  try {
-    await Firebase.initializeApp(
-      options: DefaultFirebaseOptions.currentPlatform,
-    );
-    debugPrint('✅ Firebase initialized successfully');
-  } catch (e) {
-    debugPrint('⚠️ Firebase init failed: $e');
-  }
+  // Firebase initialization removed — running with local storage backend.
 
   try {
     await AudioPlayerService.instance.init();

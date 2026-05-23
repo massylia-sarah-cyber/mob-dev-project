@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import '../../core/services/firebase_auth_service.dart';
 import '../../theme/app_theme.dart';
 import '../../widgets/ambient_background.dart';
 import '../../widgets/glass_card.dart';
@@ -106,16 +106,11 @@ class _GatewayScreenState extends State<GatewayScreen>
 
   void _navigateAfterAuth() {
     if (!mounted) return;
-    try {
-      final user = FirebaseAuth.instance.currentUser;
-      Navigator.pushReplacementNamed(
-        context,
-        user != null ? '/main' : '/login',
-      );
-    } catch (e) {
-      debugPrint('⚠️ Firebase auth check failed: $e');
-      Navigator.pushReplacementNamed(context, '/login');
-    }
+    final user = FirebaseAuthService.instance.currentUser;
+    Navigator.pushReplacementNamed(
+      context,
+      user != null ? '/main' : '/login',
+    );
   }
 
   @override

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+// Using local auth service (file-backed) instead of Firebase Auth package.
 import '../../theme/app_theme.dart';
 import '../../widgets/ambient_background.dart';
 import '../../widgets/glass_card.dart';
@@ -91,11 +91,7 @@ class _SignupScreenState extends State<SignupScreen> {
         lastName: lastName,
         birthDate: _selectedDate!,
       );
-      if (mounted) {
-        Navigator.pushReplacementNamed(context, '/main');
-      }
-    } on FirebaseAuthException catch (e) {
-      _showError(e.message ?? 'Sign-up failed.');
+      if (mounted) Navigator.pushReplacementNamed(context, '/main');
     } catch (e) {
       _showError(e.toString().replaceFirst('Exception: ', ''));
     } finally {

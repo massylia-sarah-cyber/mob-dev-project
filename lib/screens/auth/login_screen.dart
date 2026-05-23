@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+// Using local auth service (file-backed) instead of Firebase Auth package.
 import '../../theme/app_theme.dart';
 import '../../widgets/ambient_background.dart';
 import '../../widgets/glass_card.dart';
@@ -38,13 +38,17 @@ class _LoginScreenState extends State<LoginScreen> {
 
     try {
       await FirebaseAuthService.instance.signIn(email, password);
-      if (mounted) {
-        Navigator.pushReplacementNamed(context, '/main');
+
+      final accessErr = await FirebaseAuthService.instance.checkUserDocAccess();
+      if (accessErr != null) {
+        await FirebaseAuthService.instance.signOut();
+        _showError('Access error: $accessErr');
+        return;
       }
-    } on FirebaseAuthException catch (e) {
-      _showError(e.message ?? 'Authentication failed.');
+
+      if (mounted) Navigator.pushReplacementNamed(context, '/main');
     } catch (e) {
-      _showError('An unexpected error occurred.');
+      _showError(e.toString().replaceFirst('Exception: ', ''));
     } finally {
       if (mounted) setState(() => _isLoading = false);
     }

@@ -123,4 +123,9 @@ class _GlassCardState extends State<GlassCard> with SingleTickerProviderStateMix
         child: ScaleTransition(
           scale: _scaleAnimation,
           child: glassCard,
+        ),
+      ),
+    );
+  }
 }
+
