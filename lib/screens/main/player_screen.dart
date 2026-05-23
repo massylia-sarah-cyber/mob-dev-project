@@ -37,7 +37,7 @@ class _PlayerScreenState extends State<PlayerScreen> {
           stream: AudioPlayerService.instance.positionStream,
           builder: (context, positionSnapshot) {
             final track = AudioPlayerService.instance.currentTrack;
-            
+
             if (track == null) {
               return const Center(
                 child: Text(
@@ -53,7 +53,15 @@ class _PlayerScreenState extends State<PlayerScreen> {
                   backgroundColor: Colors.transparent,
                   elevation: 0,
                   pinned: true,
-                  title: const Text('NOW PLAYING', style: TextStyle(color: AppColors.primary, fontSize: 12, fontWeight: FontWeight.bold, letterSpacing: 2)),
+                  title: const Text(
+                    'NOW PLAYING',
+                    style: TextStyle(
+                      color: AppColors.primary,
+                      fontSize: 12,
+                      fontWeight: FontWeight.bold,
+                      letterSpacing: 2,
+                    ),
+                  ),
                   centerTitle: true,
                 ),
                 SliverFillRemaining(
@@ -69,20 +77,30 @@ class _PlayerScreenState extends State<PlayerScreen> {
                           child: Container(
                             width: MediaQuery.of(context).size.width * 0.8,
                             height: MediaQuery.of(context).size.width * 0.8,
-                            constraints: const BoxConstraints(maxHeight: 400, maxWidth: 400),
+                            constraints: const BoxConstraints(
+                              maxHeight: 400,
+                              maxWidth: 400,
+                            ),
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(24),
                               boxShadow: [
                                 BoxShadow(
-                                  color: AppColors.primaryContainer.withValues(alpha: 0.3),
+                                  color: AppColors.primaryContainer.withValues(
+                                    alpha: 0.3,
+                                  ),
                                   blurRadius: 40,
                                   offset: const Offset(0, 20),
                                 ),
                               ],
-                              image: DecorationImage(
-                                image: NetworkImage(track.image.isNotEmpty ? track.image : 'https://fakeimg.pl/400x400/282828/eae0d0/'),
-                                fit: BoxFit.cover,
-                              ),
+                              color: track.image.isEmpty
+                                  ? AppColors.surfaceContainerHigh
+                                  : null,
+                              image: track.image.isNotEmpty
+                                  ? DecorationImage(
+                                      image: NetworkImage(track.image),
+                                      fit: BoxFit.cover,
+                                    )
+                                  : null,
                             ),
                           ),
                         ),
@@ -99,14 +117,22 @@ class _PlayerScreenState extends State<PlayerScreen> {
                                 children: [
                                   Text(
                                     track.name,
-                                    style: Theme.of(context).textTheme.headlineMedium?.copyWith(fontWeight: FontWeight.bold),
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .headlineMedium
+                                        ?.copyWith(fontWeight: FontWeight.bold),
                                     maxLines: 1,
                                     overflow: TextOverflow.ellipsis,
                                   ),
                                   const SizedBox(height: 8),
                                   Text(
                                     track.artistName,
-                                    style: Theme.of(context).textTheme.titleMedium?.copyWith(color: AppColors.onSurfaceVariant),
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .titleMedium
+                                        ?.copyWith(
+                                          color: AppColors.onSurfaceVariant,
+                                        ),
                                     maxLines: 1,
                                     overflow: TextOverflow.ellipsis,
                                   ),
@@ -117,24 +143,37 @@ class _PlayerScreenState extends State<PlayerScreen> {
                             if (_uid != null)
                               StreamBuilder<List<Track>>(
                                 initialData: const <Track>[],
-                                stream: FirestoreService.instance.favoritesStream(_uid),
+                                stream: FirestoreService.instance
+                                    .favoritesStream(_uid),
                                 builder: (context, favSnapshot) {
-                                  final isFavorite = favSnapshot.data?.any((t) => t.id == track.id) ?? false;
+                                  final isFavorite =
+                                      favSnapshot.data?.any(
+                                        (t) => t.id == track.id,
+                                      ) ??
+                                      false;
                                   return IconButton(
                                     icon: Icon(
-                                      isFavorite ? Icons.favorite : Icons.favorite_border,
-                                      color: isFavorite ? AppColors.primary : AppColors.outline,
+                                      isFavorite
+                                          ? Icons.favorite
+                                          : Icons.favorite_border,
+                                      color: isFavorite
+                                          ? AppColors.primary
+                                          : AppColors.outline,
                                       size: 32,
                                     ),
                                     onPressed: () {
                                       if (isFavorite) {
-                                        FirestoreService.instance.removeFavorite(_uid, track.id);
+                                        FirestoreService.instance
+                                            .removeFavorite(_uid, track.id);
                                       } else {
-                                        FirestoreService.instance.addFavorite(_uid, track);
+                                        FirestoreService.instance.addFavorite(
+                                          _uid,
+                                          track,
+                                        );
                                       }
                                     },
                                   );
-                                }
+                                },
                               ),
                           ],
                         ),
@@ -145,12 +184,16 @@ class _PlayerScreenState extends State<PlayerScreen> {
                         StreamBuilder<Duration?>(
                           stream: AudioPlayerService.instance.durationStream,
                           builder: (context, durationSnapshot) {
-                            final duration = durationSnapshot.data ?? Duration.zero;
-                            final position = positionSnapshot.data ?? Duration.zero;
-                            
+                            final duration =
+                                durationSnapshot.data ?? Duration.zero;
+                            final position =
+                                positionSnapshot.data ?? Duration.zero;
+
                             double progress = 0.0;
                             if (duration.inMilliseconds > 0) {
-                              progress = position.inMilliseconds / duration.inMilliseconds;
+                              progress =
+                                  position.inMilliseconds /
+                                  duration.inMilliseconds;
                             }
 
                             return Column(
@@ -158,33 +201,63 @@ class _PlayerScreenState extends State<PlayerScreen> {
                                 SliderTheme(
                                   data: SliderTheme.of(context).copyWith(
                                     activeTrackColor: AppColors.primary,
-                                    inactiveTrackColor: AppColors.surfaceContainerHighest,
+                                    inactiveTrackColor:
+                                        AppColors.surfaceContainerHighest,
                                     thumbColor: AppColors.onPrimaryFixed,
                                     trackHeight: 4.0,
-                                    thumbShape: const RoundSliderThumbShape(enabledThumbRadius: 6.0),
-                                    overlayShape: const RoundSliderOverlayShape(overlayRadius: 14.0),
+                                    thumbShape: const RoundSliderThumbShape(
+                                      enabledThumbRadius: 6.0,
+                                    ),
+                                    overlayShape: const RoundSliderOverlayShape(
+                                      overlayRadius: 14.0,
+                                    ),
                                   ),
                                   child: Slider(
                                     value: progress.clamp(0.0, 1.0),
                                     onChanged: (value) {
-                                      final newPosition = Duration(milliseconds: (duration.inMilliseconds * value).round());
-                                      AudioPlayerService.instance.seek(newPosition);
+                                      final newPosition = Duration(
+                                        milliseconds:
+                                            (duration.inMilliseconds * value)
+                                                .round(),
+                                      );
+                                      AudioPlayerService.instance.seek(
+                                        newPosition,
+                                      );
                                     },
                                   ),
                                 ),
                                 Padding(
-                                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 16.0,
+                                  ),
                                   child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
                                     children: [
-                                      Text(_formatDuration(position), style: Theme.of(context).textTheme.labelSmall?.copyWith(color: AppColors.onSurfaceVariant)),
-                                      Text(_formatDuration(duration), style: Theme.of(context).textTheme.labelSmall?.copyWith(color: AppColors.onSurfaceVariant)),
+                                      Text(
+                                        _formatDuration(position),
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .labelSmall
+                                            ?.copyWith(
+                                              color: AppColors.onSurfaceVariant,
+                                            ),
+                                      ),
+                                      Text(
+                                        _formatDuration(duration),
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .labelSmall
+                                            ?.copyWith(
+                                              color: AppColors.onSurfaceVariant,
+                                            ),
+                                      ),
                                     ],
                                   ),
                                 ),
                               ],
                             );
-                          }
+                          },
                         ),
 
                         const SizedBox(height: 32),
@@ -193,39 +266,56 @@ class _PlayerScreenState extends State<PlayerScreen> {
                         StreamBuilder<PlayerState>(
                           stream: AudioPlayerService.instance.playerStateStream,
                           builder: (context, stateSnapshot) {
-                            final playing = stateSnapshot.data?.playing ?? false;
-                            final isRepeat = AudioPlayerService.instance.isRepeat;
-                            final isShuffle = AudioPlayerService.instance.isShuffle;
+                            final playing =
+                                stateSnapshot.data?.playing ?? false;
+                            final isRepeat =
+                                AudioPlayerService.instance.isRepeat;
+                            final isShuffle =
+                                AudioPlayerService.instance.isShuffle;
 
                             return Row(
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
                                 IconButton(
-                                  icon: Icon(Icons.shuffle, color: isShuffle ? AppColors.primary : AppColors.outline),
+                                  icon: Icon(
+                                    Icons.shuffle,
+                                    color: isShuffle
+                                        ? AppColors.primary
+                                        : AppColors.outline,
+                                  ),
                                   onPressed: () {
                                     AudioPlayerService.instance.toggleShuffle();
                                     setState(() {}); // refresh shuffle icon
                                   },
                                 ),
                                 IconButton(
-                                  icon: const Icon(Icons.skip_previous, color: AppColors.onSurface, size: 40),
+                                  icon: const Icon(
+                                    Icons.skip_previous,
+                                    color: AppColors.onSurface,
+                                    size: 40,
+                                  ),
                                   onPressed: () {
                                     AudioPlayerService.instance.playPrevious();
                                   },
                                 ),
                                 GestureDetector(
-                                  onTap: () => AudioPlayerService.instance.togglePlayPause(),
+                                  onTap: () => AudioPlayerService.instance
+                                      .togglePlayPause(),
                                   child: Container(
                                     width: 80,
                                     height: 80,
                                     decoration: BoxDecoration(
                                       shape: BoxShape.circle,
                                       gradient: const LinearGradient(
-                                        colors: [AppColors.primary, AppColors.primaryContainer],
+                                        colors: [
+                                          AppColors.primary,
+                                          AppColors.primaryContainer,
+                                        ],
                                       ),
                                       boxShadow: [
                                         BoxShadow(
-                                          color: AppColors.primaryContainer.withValues(alpha: 0.5),
+                                          color: AppColors.primaryContainer
+                                              .withValues(alpha: 0.5),
                                           blurRadius: 20,
                                         ),
                                       ],
@@ -238,13 +328,22 @@ class _PlayerScreenState extends State<PlayerScreen> {
                                   ),
                                 ),
                                 IconButton(
-                                  icon: const Icon(Icons.skip_next, color: AppColors.onSurface, size: 40),
+                                  icon: const Icon(
+                                    Icons.skip_next,
+                                    color: AppColors.onSurface,
+                                    size: 40,
+                                  ),
                                   onPressed: () {
                                     AudioPlayerService.instance.playNext();
                                   },
                                 ),
                                 IconButton(
-                                  icon: Icon(Icons.repeat, color: isRepeat ? AppColors.primary : AppColors.outline),
+                                  icon: Icon(
+                                    Icons.repeat,
+                                    color: isRepeat
+                                        ? AppColors.primary
+                                        : AppColors.outline,
+                                  ),
                                   onPressed: () {
                                     AudioPlayerService.instance.toggleRepeat();
                                     setState(() {}); // refresh repeat icon
@@ -252,35 +351,61 @@ class _PlayerScreenState extends State<PlayerScreen> {
                                 ),
                               ],
                             );
-                          }
+                          },
                         ),
 
                         const SizedBox(height: 32),
-                        
+
                         // Playlist / Queue Button
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            const Text('UP NEXT', style: TextStyle(color: AppColors.outline, fontSize: 12, fontWeight: FontWeight.bold, letterSpacing: 1.5)),
+                            const Text(
+                              'UP NEXT',
+                              style: TextStyle(
+                                color: AppColors.outline,
+                                fontSize: 12,
+                                fontWeight: FontWeight.bold,
+                                letterSpacing: 1.5,
+                              ),
+                            ),
                             IconButton(
-                              icon: const Icon(Icons.queue_music, color: AppColors.primary),
+                              icon: const Icon(
+                                Icons.queue_music,
+                                color: AppColors.primary,
+                              ),
                               onPressed: () {
                                 showModalBottomSheet(
                                   context: context,
                                   backgroundColor: AppColors.surface,
                                   shape: const RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+                                    borderRadius: BorderRadius.vertical(
+                                      top: Radius.circular(24),
+                                    ),
                                   ),
                                   builder: (context) {
-                                    final playlist = AudioPlayerService.instance.currentPlaylist;
+                                    final playlist = AudioPlayerService
+                                        .instance
+                                        .currentPlaylist;
                                     return Container(
-                                      padding: const EdgeInsets.symmetric(vertical: 24),
+                                      padding: const EdgeInsets.symmetric(
+                                        vertical: 24,
+                                      ),
                                       child: Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
                                         children: [
                                           const Padding(
-                                            padding: EdgeInsets.symmetric(horizontal: 24),
-                                            child: Text('Playing List', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+                                            padding: EdgeInsets.symmetric(
+                                              horizontal: 24,
+                                            ),
+                                            child: Text(
+                                              'Playing List',
+                                              style: TextStyle(
+                                                fontSize: 20,
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                            ),
                                           ),
                                           const SizedBox(height: 16),
                                           Expanded(
@@ -288,26 +413,69 @@ class _PlayerScreenState extends State<PlayerScreen> {
                                               itemCount: playlist.length,
                                               itemBuilder: (context, index) {
                                                 final t = playlist[index];
-                                                final isCurrent = t.id == track.id;
+                                                final isCurrent =
+                                                    t.id == track.id;
                                                 return ListTile(
-                                                  contentPadding: const EdgeInsets.symmetric(horizontal: 24, vertical: 4),
+                                                  contentPadding:
+                                                      const EdgeInsets.symmetric(
+                                                        horizontal: 24,
+                                                        vertical: 4,
+                                                      ),
                                                   leading: Container(
                                                     width: 48,
                                                     height: 48,
                                                     decoration: BoxDecoration(
-                                                      borderRadius: BorderRadius.circular(8),
-                                                      image: DecorationImage(
-                                                        image: NetworkImage(t.image.isNotEmpty ? t.image : 'https://fakeimg.pl/400x400/282828/eae0d0/'),
-                                                        fit: BoxFit.cover,
-                                                      ),
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                            8,
+                                                          ),
+                                                      color: t.image.isEmpty
+                                                          ? AppColors
+                                                                .surfaceContainerHigh
+                                                          : null,
+                                                      image: t.image.isNotEmpty
+                                                          ? DecorationImage(
+                                                              image:
+                                                                  NetworkImage(
+                                                                    t.image,
+                                                                  ),
+                                                              fit: BoxFit.cover,
+                                                            )
+                                                          : null,
                                                     ),
                                                   ),
-                                                  title: Text(t.name, style: TextStyle(fontWeight: isCurrent ? FontWeight.bold : FontWeight.normal, color: isCurrent ? AppColors.primary : AppColors.onSurface)),
-                                                  subtitle: Text(t.artistName, style: const TextStyle(color: AppColors.outline, fontSize: 12)),
-                                                  trailing: isCurrent ? const Icon(Icons.volume_up, color: AppColors.primary) : null,
+                                                  title: Text(
+                                                    t.name,
+                                                    style: TextStyle(
+                                                      fontWeight: isCurrent
+                                                          ? FontWeight.bold
+                                                          : FontWeight.normal,
+                                                      color: isCurrent
+                                                          ? AppColors.primary
+                                                          : AppColors.onSurface,
+                                                    ),
+                                                  ),
+                                                  subtitle: Text(
+                                                    t.artistName,
+                                                    style: const TextStyle(
+                                                      color: AppColors.outline,
+                                                      fontSize: 12,
+                                                    ),
+                                                  ),
+                                                  trailing: isCurrent
+                                                      ? const Icon(
+                                                          Icons.volume_up,
+                                                          color:
+                                                              AppColors.primary,
+                                                        )
+                                                      : null,
                                                   onTap: () {
                                                     Navigator.pop(context);
-                                                    AudioPlayerService.instance.playTrack(t, playlist: playlist);
+                                                    AudioPlayerService.instance
+                                                        .playTrack(
+                                                          t,
+                                                          playlist: playlist,
+                                                        );
                                                   },
                                                 );
                                               },
@@ -330,7 +498,7 @@ class _PlayerScreenState extends State<PlayerScreen> {
                 ),
               ],
             );
-          }
+          },
         ),
       ),
     );

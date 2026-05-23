@@ -57,7 +57,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 icon: const Icon(Icons.menu, color: AppColors.primary), 
                 onPressed: () => MainScaffold.of(context)?.openDrawer(),
               ),
-              title: const Text('MELODY', style: TextStyle(color: AppColors.primary, fontWeight: FontWeight.w900, letterSpacing: 2)),
+              title: const Text('MPLAYER', style: TextStyle(color: AppColors.primary, fontWeight: FontWeight.w900, letterSpacing: 2)),
               actions: [
                 const CircleAvatar(
                   backgroundColor: AppColors.surfaceContainerHighest,
@@ -90,15 +90,17 @@ class _DashboardScreenState extends State<DashboardScreen> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(FirebaseAuthService.instance.currentUser?.displayName ?? 'Melody User', style: Theme.of(context).textTheme.headlineMedium?.copyWith(fontWeight: FontWeight.bold)),
+                            Text(FirebaseAuthService.instance.currentUser?.displayName ?? 'Mplayer User', style: Theme.of(context).textTheme.headlineMedium?.copyWith(fontWeight: FontWeight.bold)),
                             const SizedBox(height: 4),
-                            Text(FirebaseAuthService.instance.currentUser?.email ?? 'user@melody.app', style: Theme.of(context).textTheme.bodyLarge?.copyWith(color: AppColors.primary)),
+                            Text(FirebaseAuthService.instance.currentUser?.email ?? 'user@mplayer.app', style: Theme.of(context).textTheme.bodyLarge?.copyWith(color: AppColors.primary)),
                           ],
                         ),
                       ),
                       IconButton(
                         icon: const Icon(Icons.edit_outlined, color: AppColors.outline),
-                        onPressed: () {},
+                        onPressed: () {
+                          _showEditProfileDialog(context);
+                        },
                       ),
                     ],
                   ),
@@ -347,6 +349,64 @@ class _DashboardScreenState extends State<DashboardScreen> {
         const SizedBox(height: 4),
         Text(subtitle, style: Theme.of(context).textTheme.bodySmall?.copyWith(color: AppColors.onSurfaceVariant)),
       ],
+    );
+  }
+
+  void _showEditProfileDialog(BuildContext context) {
+    final nameController = TextEditingController(
+      text: FirebaseAuthService.instance.currentUser?.displayName ?? '',
+    );
+    final emailController = TextEditingController(
+      text: FirebaseAuthService.instance.currentUser?.email ?? '',
+    );
+
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Edit Profile'),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              TextField(
+                controller: nameController,
+                decoration: const InputDecoration(
+                  labelText: 'Display Name',
+                  border: OutlineInputBorder(),
+                ),
+              ),
+              const SizedBox(height: 16),
+              TextField(
+                controller: emailController,
+                decoration: const InputDecoration(
+                  labelText: 'Email',
+                  border: OutlineInputBorder(),
+                ),
+                enabled: false, // Email cannot be changed
+              ),
+            ],
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('Cancel'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            TextButton(
+              child: const Text('Save'),
+              onPressed: () {
+                // TODO: Implement profile update logic
+                // For now, just show a message
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(content: Text('Profile update feature coming soon!')),
+                );
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
     );
   }
 }

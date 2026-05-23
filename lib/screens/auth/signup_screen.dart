@@ -337,7 +337,7 @@ class _SignupScreenState extends State<SignupScreen> {
           const SizedBox(height: 32),
           const Center(
             child: Text(
-              'By joining Melody, you confirm you are 13+ years of age and agree to our Terms of Sound and Privacy Policy.',
+              'By joining Mplayer, you confirm you are 13+ years of age and agree to our Terms of Sound and Privacy Policy.',
               textAlign: TextAlign.center,
               style: TextStyle(color: AppColors.outline, fontSize: 11),
             ),

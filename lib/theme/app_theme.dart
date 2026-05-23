@@ -2,42 +2,42 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class AppColors {
-  // Primary gradient colors - Modern vibrant purple to cyan
-  static const primary = Color(0xFF7C3AED);
-  static const primaryDark = Color(0xFF5B21B6);
-  static const primaryLight = Color(0xA78BFA);
-  static const primaryContainer = Color(0xFFDDD6FE);
-  static const onPrimaryFixed = Color(0xFF1A0D4D);
+  // Primary gradient colors - black and green theme
+  static const primary = Color(0xFF00E676);
+  static const primaryDark = Color(0xFF00B248);
+  static const primaryLight = Color(0xFF66FFA6);
+  static const primaryContainer = Color(0xFF001A0D);
+  static const onPrimaryFixed = Color(0xFF000000);
   
-  // Accent colors - Enhanced cyan and pink
-  static const secondary = Color(0xFF06B6D4);
-  static const secondaryDark = Color(0xFF0891B2);
-  static const tertiary = Color(0xFFEC4899);
+  // Accent colors - green/teal
+  static const secondary = Color(0xFF1DE9B6);
+  static const secondaryDark = Color(0xFF00BFA5);
+  static const tertiary = Color(0xFF76FF03);
   
-  // Background - Deep dark with blue tint
-  static const background = Color(0xFF0F172A);
-  static const onBackground = Color(0xFFF1F5F9);
+  // Background - pure black
+  static const background = Color(0xFF000000);
+  static const onBackground = Color(0xFFFFFFFF);
   
-  // Surface - Slightly lighter with more contrast
-  static const surface = Color(0xFF1E293B);
-  static const onSurface = Color(0xFFF1F5F9);
-  static const surfaceVariant = Color(0xFF334155);
-  static const onSurfaceVariant = Color(0xFFCBD5E1);
+  // Surface - darker with green accent
+  static const surface = Color(0xFF050A07);
+  static const onSurface = Color(0xFFE8FFEA);
+  static const surfaceVariant = Color(0xFF0A1F14);
+  static const onSurfaceVariant = Color(0xFF9AE6B4);
   
-  // Surface containers
-  static const surfaceContainerLowest = Color(0xFF0F172A);
-  static const surfaceContainerLow = Color(0xFF1E293B);
-  static const surfaceContainer = Color(0xFF334155);
-  static const surfaceContainerHigh = Color(0xFF475569);
-  static const surfaceContainerHighest = Color(0xFF64748B);
+  // Surface containers - all very dark with minimal variation
+  static const surfaceContainerLowest = Color(0xFF000000);
+  static const surfaceContainerLow = Color(0xFF050A07);
+  static const surfaceContainer = Color(0xFF0A1410);
+  static const surfaceContainerHigh = Color(0xFF0F1F18);
+  static const surfaceContainerHighest = Color(0xFF1A3028);
   
   // Borders and outlines
-  static const outline = Color(0xFF94A3B8);
-  static const outlineVariant = Color(0xFF475569);
+  static const outline = Color(0xFF58D68D);
+  static const outlineVariant = Color(0xFF051108);
   static const error = Color(0xFFEF4444);
   
   // Additional accent colors
-  static const success = Color(0xFF10B981);
+  static const success = Color(0xFF22C55E);
   static const warning = Color(0xFFF59E0B);
 }
 

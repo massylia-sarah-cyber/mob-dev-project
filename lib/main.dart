@@ -16,12 +16,13 @@ import 'firebase_options.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  await JustAudioBackground.init(
-    androidNotificationChannelId: 'com.mplay.app.channel.audio',
-    androidNotificationChannelName: 'Mplay Audio',
-    androidNotificationOngoing: true,
-    androidShowNotificationBadge: true,
-  );
+  // JustAudioBackground.init disabled for desktop platforms (not supported on Linux/macOS/Windows)
+  // await JustAudioBackground.init(
+  //   androidNotificationChannelId: 'com.mplay.app.channel.audio',
+  //   androidNotificationChannelName: 'Mplay Audio',
+  //   androidNotificationOngoing: true,
+  //   androidShowNotificationBadge: true,
+  // );
 
   // Firebase initialization removed — running with local storage backend.
 

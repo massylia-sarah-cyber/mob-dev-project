@@ -51,7 +51,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     icon: const Icon(Icons.menu, color: AppColors.primary), 
                     onPressed: () => MainScaffold.of(context)?.openDrawer(),
                   ),
-                  title: const Text('MPLAY', style: TextStyle(color: AppColors.primary, fontWeight: FontWeight.w900, letterSpacing: 2)),
+                  title: const Text('MPLAYER', style: TextStyle(color: AppColors.primary, fontWeight: FontWeight.w900, letterSpacing: 2)),
                   actions: [
                     if (isWide) ...[
                       TextButton(onPressed: () {}, child: const Text('Home', style: TextStyle(color: AppColors.primary, fontWeight: FontWeight.bold))),
@@ -232,11 +232,17 @@ class _HomeScreenState extends State<HomeScreen> {
                                         height: 48,
                                         decoration: BoxDecoration(
                                           borderRadius: BorderRadius.circular(4),
-                                          image: DecorationImage(
-                                            image: NetworkImage(track.image.isNotEmpty ? track.image : 'https://fakeimg.pl/400x400/282828/eae0d0/?retina=1'),
-                                            fit: BoxFit.cover,
-                                          ),
+                                          color: track.image.isNotEmpty ? null : AppColors.surfaceContainerHigh,
+                                          image: track.image.isNotEmpty
+                                              ? DecorationImage(
+                                                  image: NetworkImage(track.image),
+                                                  fit: BoxFit.cover,
+                                                )
+                                              : null,
                                         ),
+                                        child: track.image.isEmpty
+                                            ? const Icon(Icons.music_note, color: AppColors.primary)
+                                            : null,
                                       ),
                                       const SizedBox(width: 16),
                                       Expanded(

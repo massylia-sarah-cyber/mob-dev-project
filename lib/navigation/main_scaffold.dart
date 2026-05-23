@@ -104,7 +104,7 @@ class _MainScaffoldState extends State<MainScaffold> {
                 children: [
                   Icon(Icons.play_circle_filled_rounded, size: 56, color: Colors.white),
                   const SizedBox(height: 16),
-                  Text('MPLAY', style: Theme.of(context).textTheme.headlineSmall?.copyWith(color: Colors.white, fontWeight: FontWeight.w900, letterSpacing: 4)),
+                  Text('MPLAYER', style: Theme.of(context).textTheme.headlineSmall?.copyWith(color: Colors.white, fontWeight: FontWeight.w900, letterSpacing: 4)),
                 ],
               ),
             ),

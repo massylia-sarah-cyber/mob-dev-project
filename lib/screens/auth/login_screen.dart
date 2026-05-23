@@ -78,27 +78,6 @@ class _LoginScreenState extends State<LoginScreen> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 const SizedBox(height: 60),
-
-                // Melody Brand Logo
-                Container(
-                  width: 64,
-                  height: 64,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    boxShadow: [
-                      BoxShadow(
-                        color: AppColors.primary.withValues(alpha: 0.3),
-                        blurRadius: 30,
-                      )
-                    ],
-                  ),
-                  child: Image.network(
-                    'https://lh3.googleusercontent.com/aida-public/AB6AXuBswimh3ZDNbPv8mvE1TzxbYPV_QM12tVna_5VFmbN16XJ8gRV9MPLZdwR5mVyAMJ6EziDOnKiDWlhr-mRn6YeSCDbRvDwsh5-foJKcMs8Uqr_VyPtc7i1OsfGyMuFaCRKTYYJBAHJdt_V_LBFnv_Ks1zWAr6aueEdE0nFVQmfdQAE_uE597guuH2BtI2UWT4XAtg3hvj1AkoG_j5g6oBegueItZEHM5KLgoMBedZoBekoHI8h0XeFOaJYYld-CMgiwBJtQIvGVyeo',
-                    fit: BoxFit.contain,
-                  ),
-                ),
-
-                const SizedBox(height: 32),
                 Text('Welcome Back',
                     style: Theme.of(context).textTheme.displaySmall),
                 const SizedBox(height: 8),

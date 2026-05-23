@@ -31,9 +31,14 @@ class _GatewayScreenState extends State<GatewayScreen>
       duration: const Duration(seconds: 8),
     )..repeat();
 
-    // Auto-trigger biometric on screen open
+    // Auto-trigger biometric on screen open (disabled for desktop platforms)
+    // WidgetsBinding.instance.addPostFrameCallback((_) {
+    //   _triggerBiometric();
+    // });
+    
+    // Skip biometric auth on Linux and navigate directly
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      _triggerBiometric();
+      _navigateAfterAuth();
     });
   }
 

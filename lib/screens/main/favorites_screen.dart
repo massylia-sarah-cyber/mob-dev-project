@@ -48,7 +48,7 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
                 icon: const Icon(Icons.menu, color: AppColors.primary), 
                 onPressed: () => MainScaffold.of(context)?.openDrawer(),
               ),
-              title: const Text('MELODY', style: TextStyle(color: AppColors.primary, fontWeight: FontWeight.w900, letterSpacing: 2)),
+              title: const Text('MPLAYER', style: TextStyle(color: AppColors.primary, fontWeight: FontWeight.w900, letterSpacing: 2)),
               actions: [
                 if (isWide) const Center(child: Text('Favorites', style: TextStyle(color: AppColors.primary, fontWeight: FontWeight.bold))),
                 const SizedBox(width: 24),

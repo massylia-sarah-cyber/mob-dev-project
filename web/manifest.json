@@ -1,6 +1,6 @@
 {
-    "name": "melody",
-    "short_name": "melody",
+    "name": "Mplayer",
+    "short_name": "Mplayer",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",

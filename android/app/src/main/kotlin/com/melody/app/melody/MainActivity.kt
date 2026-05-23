@@ -1,4 +1,4 @@
-package com.melody.app.melody
+package com.mplayer.app.mplayer
 
 import io.flutter.embedding.android.FlutterFragmentActivity
 import io.flutter.embedding.engine.FlutterEngine

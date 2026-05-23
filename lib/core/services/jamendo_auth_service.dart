@@ -3,7 +3,7 @@ import 'dart:developer';
 
 class JamendoAuthService {
   static const clientId = 'ad40341f';
-  static const redirectUri = 'melodyapp://callback';
+  static const redirectUri = 'mplayer://callback';
 
   Future<String?> login() async {
     try {
@@ -11,7 +11,7 @@ class JamendoAuthService {
       
       final result = await FlutterWebAuth2.authenticate(
         url: url,
-        callbackUrlScheme: 'melodyapp',
+        callbackUrlScheme: 'mplayer',
       );
 
       final uri = Uri.parse(result);

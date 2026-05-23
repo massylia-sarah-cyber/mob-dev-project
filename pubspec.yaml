@@ -1,5 +1,5 @@
-name: mplay
-description: "Mplay - Your Ultimate Music Experience"
+name: mplayer
+description: "Mplayer - Your Ultimate Music Experience"
 publish_to: 'none'
 
 version: 1.0.0+1
